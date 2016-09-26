@@ -1,0 +1,666 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="scala," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Scala练手——斗鱼弹幕监控Why最近在学习hadoop, spark, kafka, zookeeper等大数据处理框架，也就顺带学习了一下scala这门编程语言，以阅读spark的源代码（spark核心使用scala编写）。没想到scala越学越上瘾，越来越喜欢函数式编程了。
+在这里以斗鱼弹幕监控为课题，使用scala编写了一个斗鱼弹幕获取、分析的小程序练练手，在这里记录一下遇到的问题以及解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala练手——斗鱼弹幕监控">
+<meta property="og:url" content="http://yoursite.com/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/index.html">
+<meta property="og:site_name" content="Glyme的小居">
+<meta property="og:description" content="Scala练手——斗鱼弹幕监控Why最近在学习hadoop, spark, kafka, zookeeper等大数据处理框架，也就顺带学习了一下scala这门编程语言，以阅读spark的源代码（spark核心使用scala编写）。没想到scala越学越上瘾，越来越喜欢函数式编程了。
+在这里以斗鱼弹幕监控为课题，使用scala编写了一个斗鱼弹幕获取、分析的小程序练练手，在这里记录一下遇到的问题以及解">
+<meta property="og:updated_time" content="2016-09-26T06:17:53.993Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Scala练手——斗鱼弹幕监控">
+<meta name="twitter:description" content="Scala练手——斗鱼弹幕监控Why最近在学习hadoop, spark, kafka, zookeeper等大数据处理框架，也就顺带学习了一下scala这门编程语言，以阅读spark的源代码（spark核心使用scala编写）。没想到scala越学越上瘾，越来越喜欢函数式编程了。
+在这里以斗鱼弹幕监控为课题，使用scala编写了一个斗鱼弹幕获取、分析的小程序练练手，在这里记录一下遇到的问题以及解">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> Scala练手——斗鱼弹幕监控 | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Glyme的小居</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Scala练手——斗鱼弹幕监控
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-19T17:19:00+08:00" content="2016-09-19">
+              2016-09-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/19/tech/通过斗鱼弹幕监控学习Scala/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Scala练手——斗鱼弹幕监控"><a href="#Scala练手——斗鱼弹幕监控" class="headerlink" title="Scala练手——斗鱼弹幕监控"></a>Scala练手——斗鱼弹幕监控</h1><h2 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h2><p>最近在学习hadoop, spark, kafka, zookeeper等大数据处理框架，也就顺带学习了一下scala这门编程语言，以阅读spark的源代码（spark核心使用scala编写）。没想到scala越学越上瘾，越来越喜欢函数式编程了。</p>
+<p>在这里以<code>斗鱼弹幕监控</code>为课题，使用scala编写了一个斗鱼弹幕获取、分析的小程序练练手，在这里记录一下遇到的问题以及解决方案。</p>
+<h2 id="斗鱼API"><a href="#斗鱼API" class="headerlink" title="斗鱼API"></a>斗鱼API</h2><p>斗鱼API使用时，需要与斗鱼服务器建立TCP长连接，使用心跳包维护连接，每一个连接对应一个斗鱼房间。当有消息时，斗鱼服务器会通过连接将消息推送过来。消息为Key-Value的格式，使用斗鱼自定义的序列化方法进行序列化，在客户端需要自行反序列化。</p>
+<p>需要注意的是，斗鱼服务器限制连接个数，连接超出一定个数（我测试的是150）时，连接会被重置（RST）。</p>
+<h2 id="程序实现"><a href="#程序实现" class="headerlink" title="程序实现"></a>程序实现</h2><p>程序需要实现以下功能：</p>
+<ol>
+<li>获取斗鱼房间列表，为每一个房间创建TCP长连接</li>
+<li>监听每一个TCP连接，有消息时接收消息并打印</li>
+<li>通过心跳包维护TCP连接</li>
+</ol>
+<h3 id="BiMap"><a href="#BiMap" class="headerlink" title="BiMap"></a>BiMap</h3><p>程序需要保存建立的长连接的信息，包括Socket和房间ID（room_id）的对应关系。由于Socket与房间ID一一对应，需要从Socket查房间ID，也需要从房间ID反查Socket，因此需要一个双向Map结构（BiMap）。</p>
+<p>这里使用了两个ConcurrentHashMap构建了一个BiMap，保存Socket与room_id的双向映射关系。使用ConcurrentHashMap的原因是，创建TCP连接，向Map插入值时使用了多线程，因此需要使用线程安全类型。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BiMap</span>[<span class="type">TK</span>, <span class="type">TV</span>] </span>&#123;</div><div class="line">    <span class="keyword">val</span> leftMap: mutable.<span class="type">Map</span>[<span class="type">TK</span>, <span class="type">TV</span>] = <span class="keyword">new</span> <span class="type">ConcurrentHashMap</span>[<span class="type">TK</span>, <span class="type">TV</span>]()</div><div class="line">    <span class="keyword">val</span> rightMap: mutable.<span class="type">Map</span>[<span class="type">TV</span>, <span class="type">TK</span>] = <span class="keyword">new</span> <span class="type">ConcurrentHashMap</span>[<span class="type">TV</span>, <span class="type">TK</span>]()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">addItem</span></span>(key: <span class="type">TK</span>, value: <span class="type">TV</span>): <span class="type">Option</span>[<span class="type">TV</span>] = &#123;</div><div class="line">        rightMap.put(value, key)</div><div class="line">        leftMap.put(key, value)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findLeft</span></span>(key: <span class="type">TK</span>): <span class="type">Option</span>[<span class="type">TV</span>] = &#123;</div><div class="line">        leftMap.get(key)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findRight</span></span>(key: <span class="type">TV</span>): <span class="type">Option</span>[<span class="type">TK</span>] = &#123;</div><div class="line">        rightMap.get(key)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteLeft</span></span>(key: <span class="type">TK</span>): <span class="type">Option</span>[<span class="type">TV</span>] = &#123;</div><div class="line">        leftMap.remove(key)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deleteRight</span></span>(key: <span class="type">TV</span>): <span class="type">Option</span>[<span class="type">TK</span>] = &#123;</div><div class="line">        rightMap.remove(key)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="房间列表获取"><a href="#房间列表获取" class="headerlink" title="房间列表获取"></a>房间列表获取</h3><p>首先通过<code>getGameList</code>获取斗鱼房间类型列表，在通过<code>getRoomList</code>获取对应房间类型的房间列表。即斗鱼有很多房间类型，每一种房间类型下面又有许多房间。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getGameList</span></span>: <span class="type">Future</span>[<span class="type">List</span>[<span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>]]] = <span class="type">Future</span> &#123;</div><div class="line">    <span class="keyword">val</span> s = fromUrlWithTimeout(<span class="string">"http://open.douyucdn.cn/api/RoomApi/game"</span>)</div><div class="line">    <span class="keyword">val</span> root = parse(s)</div><div class="line">    <span class="keyword">val</span> ret: <span class="type">List</span>[<span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>]] = <span class="keyword">for</span> &#123;</div><div class="line">        <span class="type">JField</span>(<span class="string">"data"</span>, <span class="type">JArray</span>(data)) &lt;- root</div><div class="line">        <span class="type">JObject</span>(categories) &lt;- data</div><div class="line">    &#125; <span class="keyword">yield</span> (<span class="keyword">for</span> &#123;</div><div class="line">        <span class="type">JField</span>(field, <span class="type">JString</span>(value)) &lt;- categories</div><div class="line">    &#125; <span class="keyword">yield</span> (field, value)) toMap</div><div class="line"></div><div class="line">    ret</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getRoomList</span></span>(categoryId: <span class="type">Int</span>): <span class="type">Future</span>[<span class="type">List</span>[<span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>]]] = <span class="type">Future</span> &#123;</div><div class="line">    <span class="keyword">val</span> s = fromUrlWithTimeout(<span class="string">s"http://open.douyucdn.cn/api/RoomApi/live/<span class="subst">$categoryId</span>"</span>)</div><div class="line">    <span class="keyword">val</span> root = parse(s)</div><div class="line">    <span class="keyword">val</span> ret: <span class="type">List</span>[<span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>]] = <span class="keyword">for</span> &#123;</div><div class="line">        <span class="type">JField</span>(<span class="string">"data"</span>, <span class="type">JArray</span>(data)) &lt;- root</div><div class="line">        <span class="type">JObject</span>(rooms) &lt;- data</div><div class="line">    &#125; <span class="keyword">yield</span> (<span class="keyword">for</span> &#123;</div><div class="line">        <span class="type">JField</span>(field, <span class="type">JString</span>(value)) &lt;- rooms</div><div class="line">    &#125; <span class="keyword">yield</span> (field, value)) toMap</div><div class="line"></div><div class="line">    ret</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">val</span> dytask = <span class="keyword">for</span> &#123;</div><div class="line">        categories &lt;- <span class="type">DouyuAPI</span>.getGameList</div><div class="line">    &#125; <span class="keyword">yield</span> <span class="keyword">for</span> &#123;</div><div class="line">        category &lt;- categories</div><div class="line">        categoryId &lt;- category.get(<span class="string">"cate_id"</span>)</div><div class="line">    &#125; <span class="keyword">yield</span> &#123;</div><div class="line">        <span class="type">DouyuAPI</span>.getRoomList(categoryId.toInt)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里使用了scala的Future实现异步IO。Future可以快速的创建多线程任务，返回的值为Future[T]类型的数据。通过liftweb.json库解析斗鱼房间信息并返回。返回值为键值对列表<code>[{key:value},{key:value}]</code></p>
+<p><code>dytask</code>变量存储了所有房间的信息，类型为<code>Future[List[Future[List[Map[String, String]]]]]</code>。这里使用了scala的for关键字，scala的for关键字其实只是一个语法糖（syntax sugar），编译器会将for编译为一系列的map/flatMap/foreach/withFilter/filter。</p>
+<p>具体如何展开可以参考官网的<a href="http://docs.scala-lang.org/tutorials/FAQ/yield.html" target="_blank" rel="external">FAQ</a>。</p>
+<p>然后是使用返回的Future结构的数据，异步添加各个房间到监控列表中。<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">dytask onSuccess &#123;</div><div class="line">    <span class="keyword">case</span> categories =&gt;</div><div class="line">        categories foreach (_.onSuccess &#123;</div><div class="line">            <span class="keyword">case</span> room =&gt;</div><div class="line">                room foreach (_.get(<span class="string">"room_id"</span>) <span class="keyword">match</span> &#123;</div><div class="line">                    <span class="keyword">case</span> <span class="type">Some</span>(roomIdStr) =&gt;</div><div class="line">                        <span class="keyword">if</span> (roomSockMapping.leftMap.size &lt; <span class="number">150</span>) &#123;</div><div class="line">                            <span class="keyword">val</span> roomId = roomIdStr.toInt</div><div class="line">                            <span class="keyword">val</span> chann = <span class="type">SocketChannel</span>.open(<span class="keyword">new</span> <span class="type">InetSocketAddress</span>(<span class="type">HOST</span>, <span class="type">PORT</span>))</div><div class="line">                            chann.configureBlocking(<span class="literal">false</span>)</div><div class="line">                            <span class="keyword">val</span> selKey = chann.register(selector, <span class="type">SelectionKey</span>.<span class="type">OP_READ</span>)</div><div class="line"></div><div class="line">                            roomSockMapping.synchronized(&#123;</div><div class="line">                                <span class="keyword">if</span> (roomSockMapping.leftMap.size &lt; <span class="number">150</span>) &#123;</div><div class="line">                                    roomSockMapping.addItem(roomId, chann)</div><div class="line"></div><div class="line">                                    <span class="keyword">val</span> buff = <span class="type">ByteBuffer</span>.allocate(<span class="type">MAX_BUFFER_LENGTH</span>)</div><div class="line">                                    buff.order(<span class="type">ByteOrder</span>.<span class="type">LITTLE_ENDIAN</span>)</div><div class="line">                                    roomBufferMapping.put(chann, buff)</div><div class="line"></div><div class="line">                                    loginRoom(roomId)</div><div class="line">                                    joinGroup(roomId, <span class="number">-9999</span>)</div><div class="line">                                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                                    selKey.cancel()</div><div class="line">                                    chann.close()</div><div class="line">                                &#125;</div><div class="line">                            &#125;)</div><div class="line">                        &#125;</div><div class="line">                    <span class="keyword">case</span> <span class="type">None</span> =&gt;</div><div class="line">                        println(<span class="string">"error"</span>)</div><div class="line">                &#125;)</div><div class="line">        &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里使用了NIO的<code>Selector</code>，这样就可以在一个线程中同时监控多个Socket，注意Socket必须设置为非阻塞。Socket初始化，缓存初始化，初始房间登录消息都在这里完成。</p>
+<h2 id="循环获取弹幕"><a href="#循环获取弹幕" class="headerlink" title="循环获取弹幕"></a>循环获取弹幕</h2><p>首先是使用selector监控Socket，当Socket可读时，读取Socket并将数据放入对应的缓存中。</p>
+<p><code>proc</code>函数用于处理<em>一条</em>消息，在<code>proc</code>的尾部递归调用自身来处理剩余的消息。在其他命令式语言中一般使用循环来完成这个功能，但scala的循环没有break，不好实现这样的功能（无法在数据不足时break出循环），这是为了提倡函数式编程，函数式编程中都没有<code>while</code>语句，而是使用递归来实现与循环一样的效果。</p>
+<p>尾递归通过编译器优化能够达到与<code>while</code>相同的效率，为了防止尾递归不规范，可以加上<code>@tailrec</code>让编译器检查，如果函数不能转化为尾递归编译器会报错。</p>
+<p>这里使用了ByteBuffer作为缓冲，由于接收的信息可能不全无法处理，比如一条消息长度为2000字节，当前只收到了1000字节，那就需要等待下次读取了新内容后再次检查数据是否足够。因此buffer中可能还有尚未处理的数据，只能使用<code>compact</code>而不是<code>clear</code>。</p>
+<p>使用<code>compact</code>会将没有处理的数据移到buffer头部，可能带来一定的开销。可以考虑使用<em>环形缓冲区</em>来实现ByteBuffer以降低移动数据带来的开销。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">getServerMsg</span> </span>= &#123;</div><div class="line">    <span class="meta">@tailrec</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">proc</span></span>(b: <span class="type">ByteBuffer</span>): <span class="type">Unit</span> = &#123;</div><div class="line">        <span class="keyword">if</span> (b.remaining() &gt; <span class="number">4</span>) &#123;</div><div class="line">            <span class="keyword">val</span> packetLen = b.getInt</div><div class="line">            <span class="keyword">if</span> (b.remaining() &gt;= packetLen) &#123;</div><div class="line">                <span class="keyword">if</span> (packetLen &lt;= <span class="type">MAX_BUFFER_LENGTH</span> &amp;&amp; packetLen &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">val</span> strMsg = <span class="keyword">new</span> <span class="type">String</span>(b.array(), b.position() + <span class="number">8</span>, packetLen - <span class="number">8</span>)</div><div class="line">                    b.position(b.position() + packetLen)</div><div class="line">                    parseServerMsg(<span class="type">DyMessage</span>(strMsg).msg)</div><div class="line">                    proc(b)</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    println(<span class="string">s"[FAIL] wrong length: <span class="subst">$packetLen</span>"</span>)</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                b.position(b.position() - <span class="number">4</span>)</div><div class="line">                println(<span class="string">"[INFO] not enough, wait for more..."</span>)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//初始化获取弹幕服务器返回信息包大小</span></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">val</span> readyCount = selector.select(<span class="number">1000</span>)</div><div class="line">        <span class="keyword">for</span> &#123;key: <span class="type">SelectionKey</span> &lt;- selector.selectedKeys&#125; &#123;</div><div class="line">            <span class="keyword">if</span> (key.isReadable) &#123;</div><div class="line">                <span class="keyword">val</span> sock = key.channel().asInstanceOf[<span class="type">SocketChannel</span>]</div><div class="line">                <span class="keyword">val</span> buff = roomBufferMapping.get(sock).get</div><div class="line"></div><div class="line">                <span class="comment">// read new data into buffer</span></div><div class="line">                <span class="keyword">val</span> len = sock.read(buff)</div><div class="line">                buff.flip()</div><div class="line"></div><div class="line">                proc(buff)</div><div class="line">                buff.compact</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        selector.selectedKeys().clear()</div><div class="line">    &#125; <span class="keyword">catch</span> &#123;</div><div class="line">        <span class="keyword">case</span> ex: <span class="type">Exception</span> =&gt; ex.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/scala/" rel="tag">#scala</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/" rel="next" title="Spark Local模式可用但Standalone报错的解决方法">
+                <i class="fa fa-chevron-left"></i> Spark Local模式可用但Standalone报错的解决方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/" rel="prev" title="让Chrome打印适应Kindle大小的PDF">
+                让Chrome打印适应Kindle大小的PDF <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Glyme" />
+          <p class="site-author-name" itemprop="name">Glyme</p>
+          <p class="site-description motion-element" itemprop="description">记录我的学习、生活点滴</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scala练手——斗鱼弹幕监控"><span class="nav-number">1.</span> <span class="nav-text">Scala练手——斗鱼弹幕监控</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Why"><span class="nav-number">1.1.</span> <span class="nav-text">Why</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#斗鱼API"><span class="nav-number">1.2.</span> <span class="nav-text">斗鱼API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序实现"><span class="nav-number">1.3.</span> <span class="nav-text">程序实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BiMap"><span class="nav-number">1.3.1.</span> <span class="nav-text">BiMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#房间列表获取"><span class="nav-number">1.3.2.</span> <span class="nav-text">房间列表获取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环获取弹幕"><span class="nav-number">1.4.</span> <span class="nav-text">循环获取弹幕</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Glyme</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'glyme';
+      var disqus_identifier = '2016/09/19/tech/通过斗鱼弹幕监控学习Scala/';
+      var disqus_title = 'Scala练手——斗鱼弹幕监控';
+      var disqus_url = 'http://yoursite.com/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="对于一个数字序列，请设计一个复杂度为O(nlogn)的算法，返回该序列的最长上升子序列的长度，这里的子序列定义为这样一个序列U1，U2…，其中Ui &amp;lt; Ui+1，且A[Ui]K &amp;lt; A[Ui+1]。 给定一个数字序列A及序列的长度n，请返回最长上升子序列的长度。
+ 测试样例：[2,1,4,3,1,5,6],7 返回：4
+ 本题知识点：动态规划 排序 查找
+
+对于两个字符串，请设计一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法练习，字符串交错组成-面试常考算法题（九）">
+<meta property="og:url" content="http://yoursite.com/2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/index.html">
+<meta property="og:site_name" content="Glyme的小居">
+<meta property="og:description" content="对于一个数字序列，请设计一个复杂度为O(nlogn)的算法，返回该序列的最长上升子序列的长度，这里的子序列定义为这样一个序列U1，U2…，其中Ui &amp;lt; Ui+1，且A[Ui]K &amp;lt; A[Ui+1]。 给定一个数字序列A及序列的长度n，请返回最长上升子序列的长度。
+ 测试样例：[2,1,4,3,1,5,6],7 返回：4
+ 本题知识点：动态规划 排序 查找
+
+对于两个字符串，请设计一个">
+<meta property="og:updated_time" content="2016-09-26T06:17:53.993Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法练习，字符串交错组成-面试常考算法题（九）">
+<meta name="twitter:description" content="对于一个数字序列，请设计一个复杂度为O(nlogn)的算法，返回该序列的最长上升子序列的长度，这里的子序列定义为这样一个序列U1，U2…，其中Ui &amp;lt; Ui+1，且A[Ui]K &amp;lt; A[Ui+1]。 给定一个数字序列A及序列的长度n，请返回最长上升子序列的长度。
+ 测试样例：[2,1,4,3,1,5,6],7 返回：4
+ 本题知识点：动态规划 排序 查找
+
+对于两个字符串，请设计一个">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 算法练习，字符串交错组成-面试常考算法题（九） | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Glyme的小居</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                算法练习，字符串交错组成-面试常考算法题（九）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-09T15:49:47+08:00" content="2015-10-09">
+              2015-10-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li><p>对于一个数字序列，请设计一个复杂度为O(nlogn)的算法，返回该序列的最长上升子序列的长度，这里的子序列定义为这样一个序列U1，U2…，其中Ui &lt; Ui+1，且A[Ui]K &lt; A[Ui+1]。<br> 给定一个数字序列A及序列的长度n，请返回最长上升子序列的长度。</p>
+<p> 测试样例：[2,1,4,3,1,5,6],7<br> 返回：4</p>
+<p> 本题知识点：动态规划 排序 查找</p>
+</li>
+<li><p>对于两个字符串，请设计一个高效算法，求他们的最长公共子序列的长度，这里的最长公共子序列定义为有两个序列U1,U2,U3…Un和V1,V2,V3…Vn,其中Ui&lt;Ui+1，Vi&lt;Vi+1。且A[Ui] == B[Vi]。<br>给定两个字符串A和B，同时给定两个串的长度n和m，请返回最长公共子序列的长度。保证两串长度均小于等于300。</p>
+<p> 测试样例： “1A2C3D4B56”,10,”B1D23CA45B6A”,12<br> 返回：6</p>
+<p> 本体知识点：动态规划、贪心</p>
+</li>
+<li><p>对于两个字符串，请设计一个时间复杂度为O(m*n)的算法(这里的m和n为两串的长度)，求出两串的最长公共子串的长度。这里的最长公共子串的定义为两个序列U1,U2,..Un和V1,V2,…Vn，其中Ui + 1 == Ui+1，Vi + 1 %= Vi+1，同时Ui == Vi。   给定两个字符串A和B，同时给定两串的长度n和m。</p>
+<p> 测试样例： “1AB2345CD”,9,”12345EF”,7<br> 返回：4</p>
+<p> 本体知识点：动态规划、贪心 </p>
+</li>
+<li><p>对于两个字符串A和B，我们需要进行插入、删除和修改操作将A串变为B串，定义c0，c1，c2分别为三种操作的代价，请设计一个高效算法，求出将A串变为B串所需要的最少代价。<br>给定两个字符串A和B，及它们的长度和三种操作代价，请返回将A串变为B串所需要的最小代价。保证两串长度均小于等于300，且三种代价值均小于等于100。</p>
+<p> 测试样例：”abc”,3,”adc”,3,5,3,100<br> 返回：8</p>
+<p> 本题知识点：动态规划</p>
+</li>
+<li><p>对于三个字符串A，B，C。我们称C由A和B交错组成当且仅当C包含且仅包含A，B中所有字符，且对应的顺序不改变。请编写一个高效算法，判断C串是否由A和B交错组成。<br>给定三个字符串A,B和C，及他们的长度。请返回一个bool值，代表C是否由A和B交错组成。保证三个串的长度均小于等于100。</p>
+<p> 测试样例：”ABC”,3,”12C”,3,”A12BCC”,6<br> 返回：6</p>
+<p> 本题知识点：动态规划</p>
+</li>
+</ol>
+<h2 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h2><ol>
+<li><p>给出Decorator memo，memo构建一个缓存。调用函数时先查找缓存中是否存在计算好的值，只有不存在时才会调用函数进行计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">memo</span><span class="params">(f)</span>:</span></div><div class="line">    cache = &#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(*a)</span>:</span></div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">return</span> cache[a]</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            cache[a]=f(*a)</div><div class="line">            <span class="keyword">return</span> cache[a]</div><div class="line">    <span class="keyword">return</span> func</div></pre></td></tr></table></figure>
+</li>
+<li><p>容易知道若$U=[A_{i<em>1},A</em>{i<em>2},\ldots,A</em>{i_n}]$为一个上升子序列，若存在$K_j$满足$j&lt;i_1$且$K<em>j&lt;A</em>{i_1}$，则$K_j \cup U$依然是一个上升子序列。这样就将问题分解为子问题，可以使用动态规划求解。</p>
+</li>
+</ol>
+<p>自顶向下方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@memo</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findLongest</span><span class="params">(A, n, biggerthan=<span class="number">0</span>)</span>:</span></div><div class="line">    <span class="keyword">if</span> n==<span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> max(findLongest(A[i+<span class="number">1</span>:], n-i<span class="number">-1</span>,A[i]) <span class="keyword">for</span> (i,p) <span class="keyword">in</span> enumerate(A) <span class="keyword">if</span> p&gt;biggerthan)+<span class="number">1</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> findLongest([<span class="number">2</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>,<span class="number">6</span>], <span class="number">7</span>)</div></pre></td></tr></table></figure></p>
+<ol>
+<li>类似于题1，设dp[i][j]表示A[i:]与B[j:]的最长公共子串长度，则<br>dp[i][j]=1+dp[i+1][j+1] if A[i]==B[j] else max(…)</li>
+</ol>
+<p>自底向上方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findLCS</span><span class="params">(A, n, B, m)</span>:</span></div><div class="line">    dp = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(m+<span class="number">1</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(n+<span class="number">1</span>)]</div><div class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> reversed(range(n)):</div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> reversed(range(m)):</div><div class="line">            <span class="keyword">if</span> A[r]==B[c]:</div><div class="line">                dp[r][c]=<span class="number">1</span>+dp[r+<span class="number">1</span>][c+<span class="number">1</span>]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                dp[r][c]=max(dp[latterr][latterc] <span class="keyword">for</span> latterr <span class="keyword">in</span> range(r,n+<span class="number">1</span>) <span class="keyword">for</span> latterc <span class="keyword">in</span> range(c,m+<span class="number">1</span>))</div><div class="line">    <span class="keyword">return</span> dp</div><div class="line"></div><div class="line">dp = findLCS(<span class="string">'123A456'</span>, <span class="number">7</span>, <span class="string">'B123456'</span>, <span class="number">7</span>)</div><div class="line"><span class="keyword">print</span> dp[<span class="number">0</span>][<span class="number">0</span>]</div></pre></td></tr></table></figure></p>
+<p>自顶向下方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@memo</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findLCS</span><span class="params">(A, n, B, m)</span>:</span></div><div class="line">    <span class="keyword">if</span> n==<span class="number">0</span> <span class="keyword">or</span> m==<span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span></div><div class="line">    <span class="keyword">elif</span> A[<span class="number">0</span>]==B[<span class="number">0</span>]:</div><div class="line">        <span class="keyword">return</span> findLCS(A[<span class="number">1</span>:], n<span class="number">-1</span>, B[<span class="number">1</span>:], m<span class="number">-1</span>)+<span class="number">1</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="keyword">return</span> max(findLCS(A[i:], n-i, B[j:], m-j) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,n) <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,m) <span class="keyword">if</span> <span class="keyword">not</span> (i==<span class="number">0</span> <span class="keyword">and</span> j==<span class="number">0</span>))</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span></div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>类似于题二，只需要改动A[i]!=B[j]时的操作，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findLongest</span><span class="params">(A, n, B, m)</span>:</span></div><div class="line">    dp = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(m+<span class="number">1</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(n+<span class="number">1</span>)]</div><div class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> reversed(range(n)):</div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> reversed(range(m)):</div><div class="line">            <span class="keyword">if</span> A[r]==B[c]:</div><div class="line">                dp[r][c]=<span class="number">1</span>+dp[r+<span class="number">1</span>][c+<span class="number">1</span>]</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                dp[r][c]=<span class="number">0</span></div><div class="line">    <span class="keyword">return</span> dp</div><div class="line"></div><div class="line">dp = findLongest(<span class="string">'1AB2345CD'</span>, <span class="number">9</span>, <span class="string">'12345EF'</span>, <span class="number">7</span>)</div><div class="line"><span class="keyword">print</span> max(i <span class="keyword">for</span> j <span class="keyword">in</span> dp <span class="keyword">for</span> i <span class="keyword">in</span> j)</div></pre></td></tr></table></figure>
+</li>
+<li><p>求编辑距离的经典问题，只需要为每一种操作赋上权值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">findMinCost</span><span class="params">(A, n, B, m, c0, c1, c2)</span>:</span></div><div class="line">    dp = [[<span class="number">0</span> <span class="keyword">for</span> col <span class="keyword">in</span> range(m+<span class="number">1</span>)] <span class="keyword">for</span> row <span class="keyword">in</span> range(n+<span class="number">1</span>)]</div><div class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> range(n+<span class="number">1</span>):</div><div class="line">        dp[r][<span class="number">0</span>] = r * c1  <span class="comment"># delete</span></div><div class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> range(m+<span class="number">1</span>):</div><div class="line">        dp[<span class="number">0</span>][c] = c * c0  <span class="comment"># insert</span></div><div class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> range(<span class="number">1</span>, n+<span class="number">1</span>):</div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> range(<span class="number">1</span>, m+<span class="number">1</span>):</div><div class="line">            dp[r][c] = min([dp[r - <span class="number">1</span>][c] + c0,  <span class="comment"># insert</span></div><div class="line">                            dp[r][c - <span class="number">1</span>] + c1,  <span class="comment"># delete</span></div><div class="line">                            dp[r - <span class="number">1</span>][c - <span class="number">1</span>] + (c2 <span class="keyword">if</span> A[r<span class="number">-1</span>] != B[c<span class="number">-1</span>] <span class="keyword">else</span> <span class="number">0</span>)])  <span class="comment"># substitute</span></div><div class="line">            <span class="keyword">print</span> dp</div><div class="line">    <span class="keyword">return</span> dp[<span class="number">3</span>][<span class="number">3</span>]</div><div class="line"></div><div class="line"><span class="keyword">print</span> findMinCost(<span class="string">"abc"</span>, <span class="number">3</span>, <span class="string">"adc"</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">100</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>相当于搜索一颗二叉树，左儿子就是AC两串字符头匹配，右儿子就是BC两串头匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@memo</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">chkMixture</span><span class="params">(A, n, B, m, C, v)</span>:</span></div><div class="line">    <span class="keyword">if</span> n+m!=v:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">    <span class="keyword">if</span> n==<span class="number">0</span> <span class="keyword">and</span> m==<span class="number">0</span> <span class="keyword">and</span> v==<span class="number">0</span>:</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        rst = <span class="keyword">False</span></div><div class="line">        <span class="keyword">if</span> n!=<span class="number">0</span> <span class="keyword">and</span> A[<span class="number">0</span>]==C[<span class="number">0</span>]:</div><div class="line">            rst = rst <span class="keyword">or</span> chkMixture(A[<span class="number">1</span>:], n<span class="number">-1</span>, B, m, C[<span class="number">1</span>:], v<span class="number">-1</span>)</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> rst <span class="keyword">and</span> m!=<span class="number">0</span> <span class="keyword">and</span> B[<span class="number">0</span>]==C[<span class="number">0</span>]:</div><div class="line">            rst = rst <span class="keyword">or</span> chkMixture(A, n, B[<span class="number">1</span>:], m<span class="number">-1</span>, C[<span class="number">1</span>:], v<span class="number">-1</span>)</div><div class="line">        <span class="keyword">return</span> rst</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/09/life/唯有悲剧才能够成就伟大/" rel="next" title="唯有悲剧才能够成就伟大">
+                <i class="fa fa-chevron-left"></i> 唯有悲剧才能够成就伟大
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/09/tech/内网通过代理服务器并使用Shadowsocks联网/" rel="prev" title="内网通过代理服务器并使用Shadowsocks联网">
+                内网通过代理服务器并使用Shadowsocks联网 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Glyme" />
+          <p class="site-author-name" itemprop="name">Glyme</p>
+          <p class="site-description motion-element" itemprop="description">记录我的学习、生活点滴</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析"><span class="nav-number">1.</span> <span class="nav-text">解析</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Glyme</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'glyme';
+      var disqus_identifier = '2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/';
+      var disqus_title = '算法练习，字符串交错组成-面试常考算法题（九）';
+      var disqus_url = 'http://yoursite.com/2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

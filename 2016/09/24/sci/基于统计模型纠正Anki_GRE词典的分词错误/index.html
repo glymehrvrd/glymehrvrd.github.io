@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Anki, 统计, 马尔科夫模型, 分词," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="在Anki软件中，使用的极品GRE卡牌组中的单词解释不知道怎么回事，单词经常被莫名其妙的断开。
+比如limp and flabby被写成了li mp and flabb y，读起来很不爽。于是想通过程序自动纠正这种错误。
+方案1一开始想到了一个很naive的方法：首先建立一个词典，然后每次读入一个词（空格分开）判断一下该词是否存在于词典中，如果不存在，判断该词与下一个词的组合是否在词典中，如果在，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于统计模型纠正Anki_GRE词典的分词错误">
+<meta property="og:url" content="http://yoursite.com/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/index.html">
+<meta property="og:site_name" content="Glyme的小居">
+<meta property="og:description" content="在Anki软件中，使用的极品GRE卡牌组中的单词解释不知道怎么回事，单词经常被莫名其妙的断开。
+比如limp and flabby被写成了li mp and flabb y，读起来很不爽。于是想通过程序自动纠正这种错误。
+方案1一开始想到了一个很naive的方法：首先建立一个词典，然后每次读入一个词（空格分开）判断一下该词是否存在于词典中，如果不存在，判断该词与下一个词的组合是否在词典中，如果在，">
+<meta property="og:updated_time" content="2016-09-26T06:17:53.993Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于统计模型纠正Anki_GRE词典的分词错误">
+<meta name="twitter:description" content="在Anki软件中，使用的极品GRE卡牌组中的单词解释不知道怎么回事，单词经常被莫名其妙的断开。
+比如limp and flabby被写成了li mp and flabb y，读起来很不爽。于是想通过程序自动纠正这种错误。
+方案1一开始想到了一个很naive的方法：首先建立一个词典，然后每次读入一个词（空格分开）判断一下该词是否存在于词典中，如果不存在，判断该词与下一个词的组合是否在词典中，如果在，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 基于统计模型纠正Anki_GRE词典的分词错误 | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Glyme的小居</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于统计模型纠正Anki_GRE词典的分词错误
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-24T21:15:35+08:00" content="2016-09-24">
+              2016-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/science/" itemprop="url" rel="index">
+                    <span itemprop="name">science</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在Anki软件中，使用的极品GRE卡牌组中的单词解释不知道怎么回事，单词经常被莫名其妙的断开。</p>
+<p>比如<code>limp and flabby</code>被写成了<code>li mp and flabb y</code>，读起来很不爽。于是想通过程序自动纠正这种错误。</p>
+<h2 id="方案1"><a href="#方案1" class="headerlink" title="方案1"></a>方案1</h2><p>一开始想到了一个很naive的方法：首先建立一个词典，然后每次读入一个词（空格分开）判断一下该词是否存在于词典中，如果不存在，判断该词与下一个词的组合是否在词典中，如果在，就把这两个词组合在一起并保存。</p>
+<p>比如<code>flabb</code>不存在于词典，而<code>flabby</code>存在于词典，这样就能把这个错误纠正。</p>
+<p>但是也有很多情况，即使一个单词被错误的分成了两个部分，但这两个部分依然是正确的单词。比如<code>li</code>和<code>mp</code>都存在于词典中，这样的方法就不能纠正这样的错误。</p>
+<p>这是因为这个方案实在是too naive了，完全没有利用到上下文的关系。</p>
+<h2 id="方案2"><a href="#方案2" class="headerlink" title="方案2"></a>方案2</h2><p>使用google的API，google会提供搜索建议，比如搜索<code>li mp and flabb y</code>，google会返回提示你是否要查询的是<code>limp and flabby</code>。</p>
+<p>google搜索虽然功能很强大，但是由于众所周知的原因，最后没有采用。</p>
+<h2 id="方案3"><a href="#方案3" class="headerlink" title="方案3"></a>方案3</h2><p>参考了<code>数学之美</code>和<code>Beautiful Data</code>中的分词方法，实际上就是比较$P(a_1,a_2,…,a_n)$与$P(b_1,b_2,…,b_n)$，其中$a_i,b_i$为两种分词方法第$i$个单词。</p>
+<p>使用2阶模型，即马尔科夫模型，$P(x_1,x_2,…x_i)=P(x_1|x_2)<em>P(x_2|x_3)…</em>P(x_{n-1}|x_n)$。使用了<code>Beautiful Data</code>提供的统计数据。每次尝试合并句子中的一个空格，并选出概率较大的句子作为结果。注意原始分词方案增加了权重，这是因为原始分词方案大概率是正确的，因此给它加上一个权重。最后的正确率虽然达不到100%，但还是比较令人满意了。</p>
+<p>完整代码如下，<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> sqlite3</div><div class="line"><span class="keyword">import</span> re</div><div class="line"><span class="keyword">import</span> urllib</div><div class="line"><span class="keyword">import</span> requests</div><div class="line"><span class="keyword">import</span> json</div><div class="line"><span class="keyword">import</span> time</div><div class="line"><span class="keyword">import</span> wordsegment</div><div class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log10</div><div class="line"></div><div class="line"><span class="comment"># words dictionary</span></div><div class="line">words=frozenset()</div><div class="line"><span class="keyword">with</span> open(<span class="string">"words.txt"</span>) <span class="keyword">as</span> f:</div><div class="line">    words=frozenset([line.strip() <span class="keyword">for</span> line <span class="keyword">in</span> f])</div><div class="line"></div><div class="line"><span class="comment"># correct with google engine</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">correct_google</span><span class="params">(s)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extract_tag</span><span class="params">(s)</span>:</span></div><div class="line">        flag=<span class="keyword">False</span></div><div class="line">        ret=[]</div><div class="line">        tmp=<span class="string">""</span></div><div class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> s:</div><div class="line">            <span class="keyword">if</span> flag <span class="keyword">and</span> c==<span class="string">"&lt;"</span>:</div><div class="line">                ret.append(tmp)</div><div class="line">                tmp=<span class="string">""</span></div><div class="line">                flag=<span class="keyword">False</span></div><div class="line">            <span class="keyword">if</span> flag:</div><div class="line">                tmp+=c</div><div class="line">            <span class="keyword">if</span> <span class="keyword">not</span> flag <span class="keyword">and</span> c==<span class="string">"&gt;"</span>:</div><div class="line">                flag=<span class="keyword">True</span></div><div class="line">        <span class="keyword">return</span> ret</div><div class="line"></div><div class="line">    url=<span class="string">"http://www.google.co.jp/complete/search?client=serp&amp;hl=zh-CN&amp;gs_rn=64&amp;gs_ri=serp&amp;cp=13&amp;gs_id=3ms&amp;q=%s&amp;xhr=t"</span></div><div class="line">    url=url%urllib.quote(s)</div><div class="line"></div><div class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            req=requests.get(url, timeout=<span class="number">10</span>)</div><div class="line"></div><div class="line">            js=json.loads(req.text)</div><div class="line">            flag=<span class="keyword">False</span></div><div class="line">            <span class="keyword">if</span> <span class="string">"o"</span> <span class="keyword">in</span> js[<span class="number">2</span>]:</div><div class="line">                s1=js[<span class="number">2</span>][<span class="string">"p"</span>]</div><div class="line">                s2=js[<span class="number">2</span>][<span class="string">"o"</span>]</div><div class="line">                t1=extract_tag(s1)</div><div class="line">                t2=extract_tag(s2)</div><div class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(len(t1)):</div><div class="line">                    <span class="comment"># correct word</span></div><div class="line">                    <span class="keyword">if</span>(t1[i].replace(<span class="string">" "</span>,<span class="string">""</span>)==t2[i]):</div><div class="line">                        <span class="keyword">print</span> t1[i], t2[i]</div><div class="line">                        s=s.replace(t1[i], t2[i])</div><div class="line">                        flag=<span class="keyword">True</span></div><div class="line">            <span class="keyword">break</span></div><div class="line">        <span class="keyword">except</span> Exception, ex:</div><div class="line">            <span class="keyword">print</span> str(ex)</div><div class="line">            time.sleep(<span class="number">1</span>)</div><div class="line"></div><div class="line">    <span class="keyword">return</span> flag,s</div><div class="line"></div><div class="line"><span class="comment"># correct using dictionary</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">correct_dict</span><span class="params">(s)</span>:</span></div><div class="line">    prev=<span class="string">""</span></div><div class="line">    w_list=s.split(<span class="string">" "</span>)[<span class="number">0</span>:<span class="number">-1</span>]</div><div class="line">    rst=[]</div><div class="line">    flag=<span class="keyword">False</span></div><div class="line">    <span class="keyword">for</span> w <span class="keyword">in</span> w_list:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> w.lower() <span class="keyword">in</span> words <span class="keyword">and</span> (prev+w).lower() <span class="keyword">in</span> words:</div><div class="line">            <span class="keyword">del</span> rst[<span class="number">-1</span>]</div><div class="line">            rst.append(prev+w)</div><div class="line">            flag=<span class="keyword">True</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            rst.append(w)</div><div class="line">        prev=w</div><div class="line"></div><div class="line">    <span class="keyword">return</span> flag, <span class="string">' '</span>.join(rst)</div><div class="line"></div><div class="line"><span class="comment"># correct using segmentation and word score</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">correct_segmentation</span><span class="params">(s)</span>:</span></div><div class="line"></div><div class="line">    <span class="comment"># generate all possible sentences</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generate_sentence</span><span class="params">(words)</span>:</span></div><div class="line">        <span class="comment"># original sentence</span></div><div class="line">        <span class="keyword">yield</span> words, <span class="number">0</span></div><div class="line"></div><div class="line">        <span class="comment"># sentence with one space removed</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(words)):</div><div class="line">            tmp=words[:]</div><div class="line">            tmp[i<span class="number">-1</span>:i+<span class="number">1</span>]=[tmp[i<span class="number">-1</span>]+tmp[i]]</div><div class="line">            <span class="keyword">yield</span> tmp, i</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">score_sentence</span><span class="params">(<span class="params">(words, pos)</span>)</span>:</span></div><div class="line">        words=[<span class="string">'&lt;s&gt;'</span>,]+words</div><div class="line"></div><div class="line">        <span class="comment"># add weight for original sentence</span></div><div class="line">        ret=<span class="number">5</span> <span class="keyword">if</span> pos==<span class="number">0</span> <span class="keyword">else</span> <span class="number">0</span></div><div class="line">        prev=<span class="string">"&lt;s&gt;"</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(words)):</div><div class="line">            ret+=log10(wordsegment.score(words[i],prev))</div><div class="line">            prev=words[i]</div><div class="line">        <span class="keyword">return</span> ret, pos</div><div class="line"></div><div class="line">    lower_s = s.lower()</div><div class="line">    words = lower_s.split(<span class="string">' '</span>)</div><div class="line"></div><div class="line">    max_s, pos=max(generate_sentence(words),key=score_sentence)</div><div class="line">    max_s=<span class="string">" "</span>.join(max_s)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> pos!=<span class="number">0</span>:</div><div class="line">        ret=s.split(<span class="string">' '</span>)</div><div class="line">        ret[pos<span class="number">-1</span>:pos+<span class="number">1</span>]=[ret[pos<span class="number">-1</span>]+ret[pos]]</div><div class="line">        ret=<span class="string">' '</span>.join(ret)</div><div class="line">        <span class="keyword">print</span> ret</div><div class="line">        <span class="keyword">return</span> <span class="keyword">True</span>, ret</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">False</span>, s</div><div class="line"></div><div class="line"></div><div class="line">words_re=re.compile(<span class="string">'(\w+\s+)+\w+'</span>)</div><div class="line"></div><div class="line">conn=sqlite3.connect(<span class="string">'d:\xxx\Documents\Anki\User 1\collection.anki2'</span>)</div><div class="line"><span class="keyword">for</span> row <span class="keyword">in</span> conn.execute(<span class="string">'select id, flds from notes'</span>):</div><div class="line">    idd, fld = row</div><div class="line">    s_list=[m.group(<span class="number">0</span>) <span class="keyword">for</span> m <span class="keyword">in</span> words_re.finditer(fld)]</div><div class="line">    flag = <span class="keyword">False</span></div><div class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> s_list:</div><div class="line">        <span class="comment"># corr, corr_s=correct_dict(s)</span></div><div class="line">        corr, corr_s=correct_segmentation(s)</div><div class="line"></div><div class="line">        <span class="keyword">if</span> corr:</div><div class="line">            flag=<span class="keyword">True</span></div><div class="line">            fld=fld.replace(s,corr_s)</div><div class="line">    <span class="keyword">if</span> flag:</div><div class="line">        conn.execute(<span class="string">'update notes set flds=? where id=?'</span>, (fld, idd))</div><div class="line">        conn.commit()</div><div class="line"></div><div class="line"></div><div class="line">conn.close()</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Anki-统计-马尔科夫模型-分词/" rel="tag">#Anki, 统计, 马尔科夫模型, 分词</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/" rel="next" title="让Chrome打印适应Kindle大小的PDF">
+                <i class="fa fa-chevron-left"></i> 让Chrome打印适应Kindle大小的PDF
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/26/tech/TCP缓冲区,Bytebuffer，RingBuffer/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Glyme" />
+          <p class="site-author-name" itemprop="name">Glyme</p>
+          <p class="site-description motion-element" itemprop="description">记录我的学习、生活点滴</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案1"><span class="nav-number">1.</span> <span class="nav-text">方案1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案2"><span class="nav-number">2.</span> <span class="nav-text">方案2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案3"><span class="nav-number">3.</span> <span class="nav-text">方案3</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Glyme</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'glyme';
+      var disqus_identifier = '2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/';
+      var disqus_title = '基于统计模型纠正Anki_GRE词典的分词错误';
+      var disqus_url = 'http://yoursite.com/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
