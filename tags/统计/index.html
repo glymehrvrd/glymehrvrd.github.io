@@ -84,22 +84,15 @@
 
 
 
-<meta name="description" content="使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。
-java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了
-各种ClassUndefined问题首先检查一下有没有使用 sbt-assemb">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Spark Local模式可用但Standalone报错的解决方法">
-<meta property="og:url" content="http://yoursite.com/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/index.html">
+<meta name="description" content="记录我的学习、生活点滴">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Glyme的小居">
+<meta property="og:url" content="http://yoursite.com/tags/统计/index.html">
 <meta property="og:site_name" content="Glyme的小居">
-<meta property="og:description" content="使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。
-java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了
-各种ClassUndefined问题首先检查一下有没有使用 sbt-assemb">
-<meta property="og:updated_time" content="2016-09-26T06:17:53.993Z">
+<meta property="og:description" content="记录我的学习、生活点滴">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spark Local模式可用但Standalone报错的解决方法">
-<meta name="twitter:description" content="使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。
-java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了
-各种ClassUndefined问题首先检查一下有没有使用 sbt-assemb">
+<meta name="twitter:title" content="Glyme的小居">
+<meta name="twitter:description" content="记录我的学习、生活点滴">
 
 
 
@@ -117,7 +110,7 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
   };
 </script>
 
-  <title> Spark Local模式可用但Standalone报错的解决方法 | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 标签: 统计 | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -138,7 +131,7 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left  ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -226,147 +219,46 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                Spark Local模式可用但Standalone报错的解决方法
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-13T15:47:21+08:00" content="2016-09-13">
-              2016-09-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/technology/" itemprop="url" rel="index">
-                    <span itemprop="name">technology</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p>使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。</p>
-<h2 id="java-lang-ClassCastException"><a href="#java-lang-ClassCastException" class="headerlink" title="java.lang.ClassCastException"></a>java.lang.ClassCastException</h2><p>这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了</p>
-<h2 id="各种ClassUndefined问题"><a href="#各种ClassUndefined问题" class="headerlink" title="各种ClassUndefined问题"></a>各种ClassUndefined问题</h2><p>首先检查一下有没有使用 sbt-assembly 把第三方 jar 包打包进去，或者使用 classpath 把jar包include进去。然后注意提交的 jar 包<em>要在所有Worker上都可见</em>，如果使用的posix文件名，要把jar包传到每一台Worker上，路径名称都要相同。</p>
-
-      
+  <div id="posts" class="posts-collapse">
+    <div class="collection-title">
+      <h2 >
+        统计
+        <small>标签</small>
+      </h2>
     </div>
 
-    <div>
+    
       
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h1 class="post-title">
         
-      
-    </div>
-
-    <div>
-      
+            <a class="post-title-link" href="/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/" itemprop="url">
+              
+                <span itemprop="name">基于统计模型纠正Anki_GRE词典的分词错误</span>
+              
+            </a>
         
+      </h1>
 
-      
-    </div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2016-09-24T21:15:35+08:00"
+              content="2016-09-24" >
+          09-24
+        </time>
+      </div>
 
-    <footer class="post-footer">
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/09/13/tech/关于网络编程中 MTU、TCP、UDP 优化配置的一些总结 - 副本/" rel="next" title="关于网络编程中 MTU、TCP、UDP 优化配置的一些总结">
-                <i class="fa fa-chevron-left"></i> 关于网络编程中 MTU、TCP、UDP 优化配置的一些总结
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/" rel="prev" title="Scala练手——斗鱼弹幕监控">
-                Scala练手——斗鱼弹幕监控 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
+    
   </div>
+
+  
 
 
           </div>
@@ -374,14 +266,6 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
 
 
           
-  <div class="comments" id="comments">
-    
-      <div class="ds-thread" data-thread-key="2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/"
-           data-title="Spark Local模式可用但Standalone报错的解决方法" data-url="http://yoursite.com/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/">
-      </div>
-    
-  </div>
-
 
         </div>
         
@@ -401,17 +285,8 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -461,17 +336,6 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
 
       </section>
 
-      
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-lang-ClassCastException"><span class="nav-number">1.</span> <span class="nav-text">java.lang.ClassCastException</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各种ClassUndefined问题"><span class="nav-number">2.</span> <span class="nav-text">各种ClassUndefined问题</span></a></li></ol></div>
-            
-          </div>
-        </section>
       
 
     </div>
@@ -568,10 +432,6 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 
