@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Kindle," />
+  <meta name="keywords" content="c++,debug," />
 
 
 
@@ -84,24 +84,19 @@
 
 
 
-<meta name="description" content="最近发现一本深度学习的好书 Neural Networks and Deep Learning，想保存下载在Kindle上面阅读。
-但是书中包含大量由MathJAX渲染的公式，无论是直接保存html或是另存为word，在Kindle上的阅读体验都比较糟糕。只有pdf格式才能完美的显示公式，于是想到使用chrome将网页保存为pdf格式。
-首先使用开发者工具删掉网页中多余的元素，只保留书本内容，然后">
+<meta name="description" content="记录C++的一个调试过程Pass-By-Value使用scala编写的斗鱼弹幕监控系统运行良好，但是java的内存消耗比较大，我的小破VPS有点承受不住。于是打算使用c++重写，但在过程中却遇到了一个bug，我调试一天的时间才解决。虽然这个bug非常的愚蠢，但是不常使用c++的人可能比较容易犯而且很难找到问题出在哪，特此记录。
+我使用了一个unordered_map&amp;lt;int, byte_bu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="让Chrome打印适应Kindle大小的PDF">
-<meta property="og:url" content="http://yoursite.com/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/index.html">
+<meta property="og:title" content="记录C++的一个调试过程">
+<meta property="og:url" content="http://yoursite.com/2016/10/07/tech/记录C++的一个调试过程/index.html">
 <meta property="og:site_name" content="Glyme的小居">
-<meta property="og:description" content="最近发现一本深度学习的好书 Neural Networks and Deep Learning，想保存下载在Kindle上面阅读。
-但是书中包含大量由MathJAX渲染的公式，无论是直接保存html或是另存为word，在Kindle上的阅读体验都比较糟糕。只有pdf格式才能完美的显示公式，于是想到使用chrome将网页保存为pdf格式。
-首先使用开发者工具删掉网页中多余的元素，只保留书本内容，然后">
-<meta property="og:image" content="http://yoursite.com/images/chromekindlepdf.png">
-<meta property="og:updated_time" content="2016-09-26T06:17:53.993Z">
+<meta property="og:description" content="记录C++的一个调试过程Pass-By-Value使用scala编写的斗鱼弹幕监控系统运行良好，但是java的内存消耗比较大，我的小破VPS有点承受不住。于是打算使用c++重写，但在过程中却遇到了一个bug，我调试一天的时间才解决。虽然这个bug非常的愚蠢，但是不常使用c++的人可能比较容易犯而且很难找到问题出在哪，特此记录。
+我使用了一个unordered_map&amp;lt;int, byte_bu">
+<meta property="og:updated_time" content="2016-11-08T07:42:48.886Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="让Chrome打印适应Kindle大小的PDF">
-<meta name="twitter:description" content="最近发现一本深度学习的好书 Neural Networks and Deep Learning，想保存下载在Kindle上面阅读。
-但是书中包含大量由MathJAX渲染的公式，无论是直接保存html或是另存为word，在Kindle上的阅读体验都比较糟糕。只有pdf格式才能完美的显示公式，于是想到使用chrome将网页保存为pdf格式。
-首先使用开发者工具删掉网页中多余的元素，只保留书本内容，然后">
-<meta name="twitter:image" content="http://yoursite.com/images/chromekindlepdf.png">
+<meta name="twitter:title" content="记录C++的一个调试过程">
+<meta name="twitter:description" content="记录C++的一个调试过程Pass-By-Value使用scala编写的斗鱼弹幕监控系统运行良好，但是java的内存消耗比较大，我的小破VPS有点承受不住。于是打算使用c++重写，但在过程中却遇到了一个bug，我调试一天的时间才解决。虽然这个bug非常的愚蠢，但是不常使用c++的人可能比较容易犯而且很难找到问题出在哪，特此记录。
+我使用了一个unordered_map&amp;lt;int, byte_bu">
 
 
 
@@ -119,7 +114,7 @@
   };
 </script>
 
-  <title> 让Chrome打印适应Kindle大小的PDF | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> 记录C++的一个调试过程 | Glyme的小居 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -249,7 +244,7 @@
             
             
               
-                让Chrome打印适应Kindle大小的PDF
+                记录C++的一个调试过程
               
             
           </h1>
@@ -261,8 +256,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-24T11:41:00+08:00" content="2016-09-24">
-              2016-09-24
+            <time itemprop="dateCreated" datetime="2016-10-07T18:11:00+08:00" content="2016-10-07">
+              2016-10-07
             </time>
           </span>
 
@@ -291,8 +286,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/life/让Chrome打印适应Kindle大小的PDF/" itemprop="commentsCount"></span>
+                <a href="/2016/10/07/tech/记录C++的一个调试过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/07/tech/记录C++的一个调试过程/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -315,13 +310,25 @@
       
 
       
-        <p>最近发现一本深度学习的好书 <a href="http://neuralnetworksanddeeplearning.com/" target="_blank" rel="external">Neural Networks and Deep Learning</a>，想保存下载在Kindle上面阅读。</p>
-<p>但是书中包含大量由MathJAX渲染的公式，无论是直接保存html或是另存为word，在Kindle上的阅读体验都比较糟糕。只有pdf格式才能完美的显示公式，于是想到使用chrome将网页保存为pdf格式。</p>
-<p>首先使用<code>开发者工具</code>删掉网页中多余的元素，只保留书本内容，然后使用chrome的<code>打印pdf</code>功能将网页保存为pdf格式。</p>
-<p>但chrome只能打印A4,A3等几种大小的pdf，这些大小在kindle上阅读体验也不好。</p>
-<p>最适合kindle pw1的大小是 <code>85mmx114mm</code>。通过在CSS样式表里添加代码控制chrome打印pdf的大小，<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">media</span> print&#123;</div><div class="line">    @<span class="keyword">page</span> &#123; <span class="attribute">size</span>:<span class="number">85mm</span> <span class="number">114mm</span>; <span class="attribute">margin-left</span>: <span class="number">2mm</span>; <span class="attribute">margin-right</span>: <span class="number">2mm</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后打印、保存、上传到Kindle上，效果就很棒啦。</p>
-<p><img src="/images/chromekindlepdf.png" alt="result_pdf"></p>
+        <h1 id="记录C-的一个调试过程"><a href="#记录C-的一个调试过程" class="headerlink" title="记录C++的一个调试过程"></a>记录C++的一个调试过程</h1><h2 id="Pass-By-Value"><a href="#Pass-By-Value" class="headerlink" title="Pass-By-Value"></a>Pass-By-Value</h2><p>使用scala编写的斗鱼弹幕监控系统运行良好，但是java的内存消耗比较大，我的小破VPS有点承受不住。于是打算使用c++重写，但在过程中却遇到了一个bug，我调试一天的时间才解决。虽然这个bug非常的愚蠢，但是不常使用c++的人可能比较容易犯而且很难找到问题出在哪，特此记录。</p>
+<p>我使用了一个<code>unordered_map&lt;int, byte_buffer&gt;</code>保存房间的缓冲(key为socket file descriptor)，缓冲<code>byte_buffer</code>是我仿照java的<code>ByteBuffer</code>写的一个类，具有<code>flip</code>,<code>compact</code>等功能。</p>
+<p>在使用epoll循环处理消息的过程中，首先根据socket file descriptor获取对应的缓冲，然后使用<code>recv</code>将数据读取到缓冲中，循环处理收到的消息直到当前缓冲中的数据不够，最后使用compact方法清除已处理的数据并为下一次接收数据做准备。</p>
+<p>整个程序流程和我用scala写的一样，但是总是会出现错误。根据斗鱼的协议，每条消息的前4个byte应该是消息长度，但是我处理时消息长度有时候明显不对，比如为负数或一个超大的数。</p>
+<p>通过分析，艰苦的分析后发现，<strong>错误只会在接收到ranklist消息后发生</strong>，ranklist消息发送长度比较长，大于mss会分段。通过gdb调试，我发现发生错误时，<code>byte_buffer</code>中的数据明显缺少了头部信息，position为0。</p>
+<p>这个完全不应该，但是在单元测试中，<code>byte_buffer</code>完全正常，让我百思不得其解。为什么单元测试时正确，但在整体中就不正确了呢，好像问题出在上一次<code>byte_buffer</code>中存储的数据没有存储到。</p>
+<p>最后在gdb调试中发现，unordered_map中存储的<code>byte_buffer</code>地址和我打断点的局部变量<code>byte_buffer</code>的地址不一样，终于发现问题出在这一句上</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">auto</span> buff = map_sock_buffer.at(sock_fd);</div></pre></td></tr></table></figure>
+<p>C++是<strong>pass-by-value</strong>的，而我忘记了这一点，每一次赋值相当于复制了一次<code>byte_buffer</code>，操作都发生在这个<code>byte_buffer</code>上而不是<code>unordered_map</code>中的<code>byte_buffer</code>上。改为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">auto</span>&amp; buff = map_sock_buffer.at(sock_fd);</div></pre></td></tr></table></figure>
+<p>就正确了。</p>
+<p><strong>问题定位</strong>首先是gdb调试出错，通过bt查看栈，发现<code>packet_length</code>不正确，发现<code>byte_buffer</code>中的数据不正确，缺少消息头。但是检查<code>byte_buffer</code>源码并测试并没有发现错误，这个地方耽误了很久。最后打印<code>unordered_map</code>发现其中<code>byte_buffer</code>地址与局部变量的<code>byte_buffer</code>地址不同，这才找到错误。</p>
+<h2 id="double-free"><a href="#double-free" class="headerlink" title="double free"></a>double free</h2><p><code>byte_buffer</code>是一个资源管理类，但我没遵守<code>rule of three/five</code>，没有定义<code>copy constructor</code>结果出现了这个错误。因为默认的<code>copy constructor</code>复制所有值包括指针，导致<code>destruct</code>时指针被重复释放，产生错误。</p>
+<h2 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h2><p>我想尝试一下智能指针<code>unique_ptr</code>来代替<code>byte_buffer</code>中的<code>raw pointer</code>，结果又出了问题。这次问题出在<code>unique_ptr</code>没有<code>copy constructor</code>。我使用的是这一句来插值到map中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">map</span>.insert(&#123;<span class="number">123</span>,byte_buffer(<span class="number">123</span>)&#125;);</div></pre></td></tr></table></figure>
+<p>我认为这里的<code>byte_buffer</code>和<code>{123,byte_buffer(123)}</code>产生的都是rvalue，不会调用<code>copy constructor</code>。</p>
+<p>但是<code>{123,byte_buffer(123)}</code>实际上并不是转换为<code>std::pair</code>，而是调用了一个<code>allocator</code>，其中会有<code>copy construct</code>的过程。改为</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">map</span>.insert(<span class="built_in">std</span>::make_pair(<span class="number">123</span>,byte_buffer(<span class="number">123</span>)));</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>不得不感慨一下C++的坑之多，很多时候真的挺违背人类直觉的，用起来远不如<code>java</code>，<code>python</code>爽快。<br>而且C++背后编译器到底是怎么实现的，真的令人难以揣摩，很多时候只能遵照 best practice来编写。<br>再者写C++真的挺累人的，随时都要想着这个是传指针呢，还是传引用呢，这个对象应该怎么弄等等。<br>难怪C++普及度不及java。</p>
 
       
     </div>
@@ -343,7 +350,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Kindle/" rel="tag">#Kindle</a>
+            <a href="/tags/c/" rel="tag">#c++</a>
+          
+            <a href="/tags/debug/" rel="tag">#debug</a>
           
         </div>
       
@@ -352,16 +361,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/" rel="next" title="Scala练手——斗鱼弹幕监控">
-                <i class="fa fa-chevron-left"></i> Scala练手——斗鱼弹幕监控
+              <a href="/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/" rel="next" title="基于统计模型纠正Anki_GRE词典的分词错误">
+                <i class="fa fa-chevron-left"></i> 基于统计模型纠正Anki_GRE词典的分词错误
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/" rel="prev" title="基于统计模型纠正Anki_GRE词典的分词错误">
-                基于统计模型纠正Anki_GRE词典的分词错误 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/11/04/life/Android玩机——解决流氓软件的耗电问题/" rel="prev" title="Android玩机——解决流氓软件的耗电问题">
+                Android玩机——解决流氓软件的耗电问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -388,8 +397,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/24/life/让Chrome打印适应Kindle大小的PDF/"
-           data-title="让Chrome打印适应Kindle大小的PDF" data-url="http://yoursite.com/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/">
+      <div class="ds-thread" data-thread-key="2016/10/07/tech/记录C++的一个调试过程/"
+           data-title="记录C++的一个调试过程" data-url="http://yoursite.com/2016/10/07/tech/记录C++的一个调试过程/">
       </div>
     
   </div>
@@ -480,7 +489,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录C-的一个调试过程"><span class="nav-number">1.</span> <span class="nav-text">记录C++的一个调试过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pass-By-Value"><span class="nav-number">1.1.</span> <span class="nav-text">Pass-By-Value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#double-free"><span class="nav-number">1.2.</span> <span class="nav-text">double free</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr"><span class="nav-number">1.3.</span> <span class="nav-text">unique_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

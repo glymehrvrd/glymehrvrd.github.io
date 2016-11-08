@@ -243,6 +243,260 @@
             
               
                 
+                <a class="post-title-link" href="/2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/" itemprop="url">
+                  杂七杂八的Linux Shell脚本学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-09T15:46:37+08:00" content="2016-05-09">
+              2016-05-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文为[Linux Shell Scripting Cookbook]学习记录，枚举了一些常用的命令。</p>
+<h2 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h2><p><code>tr [options] set1 set2</code><br>translate 命令，用于将输入字符从set1映射到set2。<br>如<code>tr [A-Z] [a-z]</code>将字符全部转换为小写。</p>
+<p>options有许多用法，<code>-s</code>可以压缩字符，<code>-d</code>可以删除字符</p>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p><code>sort [options] file</code><br>sort 命令，用于将输入按行排序。</p>
+<p>options用法， <code>-r</code>逆序排序，<code>-u</code>相同行只输出一次</p>
+<h2 id="uniq"><a href="#uniq" class="headerlink" title="uniq"></a>uniq</h2><p>uniq 命令，用于输出唯一行，注意uniq只对相临行作检测，也就是说<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">123</div><div class="line">321</div><div class="line">123</div></pre></td></tr></table></figure></p>
+<p>依然输出<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">123</div><div class="line">321</div><div class="line">123</div></pre></td></tr></table></figure></p>
+<p>因此uniq常常和sort联合使用。常用选项<code>-c</code>，统计出现数目。</p>
+<h2 id="cut-paste"><a href="#cut-paste" class="headerlink" title="cut, paste"></a>cut, paste</h2><p>cut切分列，paste粘贴列</p>
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>sed替换文本模式，删除文本模式</p>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><p>awk太博大精深了，参考-&gt;<a href="http://www.cnblogs.com/ggjucheng/archive/2013/01/13/2858470.html" target="_blank" rel="external">linux awk 命令详解</a></p>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>查找模式，常用选项<code>-o</code>，仅输出匹配的内容。grep也常常和sort，uniq等联合使用，比如统计词频可以这么做：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -o <span class="string">'\b\w+\b'</span> xxxfile|sort|uniq -c</div></pre></td></tr></table></figure></p>
+<h2 id="tar-gzip-zip"><a href="#tar-gzip-zip" class="headerlink" title="tar, gzip, zip"></a>tar, gzip, zip</h2><p>tar创建归档文件，gzip创建压缩文件，zip可以同时完成归档和压缩功能。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/04/09/tech/自己实现一个vector类/" itemprop="url">
+                  自己实现一个vector类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-09T15:50:56+08:00" content="2016-04-09">
+              2016-04-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/09/tech/自己实现一个vector类/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/09/tech/自己实现一个vector类/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>准备面试，看到很多人说遇到面试官让自己在纸上写一个std类，所以我就拿std::vector作为练手。</p>
+<p>主要思想就是使用swap保证异常安全性，遵守<code>Effective C++</code>的一些item，比如从<code>copy-constructor</code>和<code>assign-constructor</code>提取共同的代码组成<code>init</code>函数。</p>
+<p>虽然代码比较简单，但还是出现了越界等问题调试了很久，可能手太生了，以后得多练练！<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;utility&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">class</span> myvec &#123;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> *mdata = <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">int</span> msize = <span class="number">11</span>;</div><div class="line">    <span class="keyword">int</span> mlastidx = <span class="number">-1</span>;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">ensureSize</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="keyword">if</span> (msize &lt;= mlastidx + <span class="number">1</span>) &#123;</div><div class="line">             reserve(msize * <span class="number">2</span>);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">const</span> myvec &amp;vec)</span> </span>&#123;</div><div class="line">         <span class="keyword">if</span> (&amp;vec == <span class="keyword">this</span>)</div><div class="line">             <span class="keyword">return</span>;</div><div class="line"> </div><div class="line">         <span class="function">myvec <span class="title">newvec</span><span class="params">(vec.msize)</span></span>;</div><div class="line"> </div><div class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= vec.mlastidx; ++i) &#123;</div><div class="line">             newvec.insert(vec.mdata[i]);</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         swap(newvec);</div><div class="line">     &#125;</div><div class="line"> </div><div class="line"> <span class="keyword">public</span>:</div><div class="line">     myvec() : myvec(<span class="number">11</span>) &#123;</div><div class="line"> </div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     myvec(<span class="keyword">int</span> capacity) : msize(capacity) &#123;</div><div class="line">         <span class="keyword">try</span> &#123;</div><div class="line">             mdata = <span class="keyword">new</span> <span class="keyword">int</span>[capacity];</div><div class="line">         &#125;</div><div class="line">         <span class="keyword">catch</span> (<span class="keyword">const</span> <span class="built_in">std</span>::bad_alloc &amp;e) &#123;</div><div class="line">             <span class="built_in">std</span>::<span class="built_in">cerr</span> &lt;&lt; e.what() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">             <span class="built_in">abort</span>();</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     myvec(<span class="keyword">const</span> myvec &amp;vec) &#123;</div><div class="line">         init(vec);</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     ~myvec() &#123;</div><div class="line">         <span class="keyword">delete</span>[] mdata;</div><div class="line">         <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"deconstructed"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="keyword">const</span> myvec &amp;<span class="keyword">operator</span>=(<span class="keyword">const</span> myvec &amp;vec) &#123;</div><div class="line">         init(vec);</div><div class="line">         <span class="keyword">return</span> *<span class="keyword">this</span>;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="keyword">return</span> mlastidx + <span class="number">1</span>;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="keyword">int</span> &amp;<span class="keyword">operator</span>[](<span class="keyword">int</span> index) &#123;</div><div class="line">         <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; mlastidx)</div><div class="line">             <span class="keyword">throw</span> <span class="string">"invalid access"</span>;</div><div class="line">         <span class="keyword">return</span> mdata[index];</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(myvec &amp;other)</span> </span>&#123;</div><div class="line">         <span class="built_in">std</span>::swap(<span class="keyword">this</span>-&gt;msize, other.msize);</div><div class="line">         <span class="built_in">std</span>::swap(<span class="keyword">this</span>-&gt;mdata, other.mdata);</div><div class="line">         <span class="built_in">std</span>::swap(<span class="keyword">this</span>-&gt;mlastidx, other.mlastidx);</div><div class="line"> </div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">reserve</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</div><div class="line">         <span class="keyword">if</span> (capacity &lt;= mlastidx) &#123;</div><div class="line">             <span class="keyword">return</span>;</div><div class="line">         &#125;</div><div class="line">         <span class="function">myvec <span class="title">newvec</span><span class="params">(capacity)</span></span>;</div><div class="line"> </div><div class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= mlastidx; ++i) &#123;</div><div class="line">             newvec.insert(mdata[i]);</div><div class="line">         &#125;</div><div class="line"> </div><div class="line">         swap(newvec);</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> </span>&#123;</div><div class="line">         <span class="keyword">return</span> mlastidx == <span class="number">-1</span>;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</div><div class="line">         ensureSize();</div><div class="line">         mlastidx++;</div><div class="line">         mdata[mlastidx] = val;</div><div class="line">     &#125;</div><div class="line"> </div><div class="line">     <span class="function"><span class="keyword">void</span> <span class="title">erase</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; mlastidx) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = index; i &lt; mlastidx; ++i) &#123;</div><div class="line">            mdata[i] = mdata[i + <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">        mlastidx--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= mlastidx; ++i) &#123;</div><div class="line">            <span class="keyword">if</span> (mdata[i] == val) &#123;</div><div class="line">                <span class="keyword">return</span> i;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(<span class="keyword">int</span> val)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> cnt = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= mlastidx; ++i) &#123;</div><div class="line">            <span class="keyword">if</span> (mdata[i] == val) &#123;</div><div class="line">                cnt++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> cnt;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="function">myvec <span class="title">newvec</span><span class="params">(msize)</span></span>;</div><div class="line">        swap(newvec);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/09/tech/Leetcode-No-35-Sort-Colors/" itemprop="url">
                   Leetcode No.35 Sort Colors
                 </a>
@@ -921,7 +1175,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -938,7 +1192,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
