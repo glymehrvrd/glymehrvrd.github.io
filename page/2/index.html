@@ -259,6 +259,542 @@
             
               
                 
+                <a class="post-title-link" href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/" itemprop="url">
+                  Spark Local模式可用但Standalone报错的解决方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-09-13T15:47:21+08:00" content="2016-09-13">
+              2016-09-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。
+java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了
+各种ClassUndefined问题首先检查一下有没有使用 sbt-assembly 把第三方 jar 包打包进去，或者使用 classpath 把jar包include进去。然后注意提交的 jar 包要在所有Worker上都可见，如果使用的posix文件名，要把jar包传到每一台Worker上，路径名称都要相同。
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/14/sci/mcmcgibbs/" itemprop="url">
+                  MCMC&Gibbs Sampling学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-14T23:27:07+08:00" content="2016-05-14">
+              2016-05-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/science/" itemprop="url" rel="index">
+                    <span itemprop="name">science</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/14/sci/mcmcgibbs/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/14/sci/mcmcgibbs/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          给定一个简单的概率分布$p(x)$（比如均匀分布、正态分布），生成它的样本是比较容易的。但是当目标概率分布很复杂时，要生成它的样本就会变得十分困难。MCMC（蒙特卡洛马尔科夫方法）算法就是一种常用的生成复杂目标概率分布样本的算法。
+MCMC的基础是非周期马氏链的平稳特性：从任意状态出发，最后都会到达平稳状态。当达到平稳状态后，每一次采样得到的样本$x$都服从平稳分布$\pi$。如果平稳分布$\pi$就是目标分布的话，那么我们就找到了一种生成目标概率分布样本的方法，MCMC就是使得$\pi$成为目标分布的方法。
+具体算法推导参考：MCMC和Gibbs Sampling
+MCMC需要已知目标概率分布$p(x)$和一个任意分布$q(x|y)$
+算法如下：
+
+初始化马氏链状态X=x0
+
+对t=0,1,2…循环采样
+
+采样$y\sim q(x|y)$
+
+从均匀分布采样$u\sim U(0,1)$
+
+如果$u&lt;\alpha(x_y,y)=min\{\frac{p(y)q(x_t|y)}{p(x_t)q(y|x_t)},1\}$，接受新样本y，X=y，否则$X=x_t$
+
+
+
+
+选取分布$q(x|y)$时，往往需要满足对称性，$q(x|y)=q(y|x)$，也就是x-&gt;y与y-&gt;x的概率相同，这样$\alpha(x_y,y)=min\{\frac{p(y)}{p(x_t)},1
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/14/sci/mcmcgibbs/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/09/tech/设计模式解析学习/" itemprop="url">
+                  设计模式解析学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-09T15:51:35+08:00" content="2016-05-09">
+              2016-05-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/09/tech/设计模式解析学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/tech/设计模式解析学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          面向对象范形面向过程：功能分解将一个大任务分解为一个个小任务，但是主程序需要承受的责任太多（为每个子任务分配资源，确保子任务正确运行，etc）
+功能分解往往导致低内聚，高耦合。    
+面向对象对象具有责任，降低主程序的复杂操作。
+封装使得耦合性降低。 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/09/tech/设计模式解析学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/05/09/tech/Java-concurrent包学习/" itemprop="url">
+                  Java concurrent包学习
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-09T15:47:21+08:00" content="2016-05-09">
+              2016-05-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/09/tech/Java-concurrent包学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/tech/Java-concurrent包学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          JDK5.0对java.util.concurrent包做了大量的改进，吸收了大量的由 Doug Lea 编写的util.concurrent包中的内容。
+这里记录一下我对java.util.concurrent包学习的总结。
+摘要自其他文章
+
+JDK 5.0 中的并发改进可以分为三组:
+
+JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供支持，通常以compare-and-swap （CAS）指令形式。CAS 是一种低级别的、细粒度的技术，它允许多个线程更新一个内存位置，同时能够检测其他线程的冲突并进行恢复。它是许多高性能并发算法的基础。在 JDK 5.0 之前，Java 语言中用于协调线程之间的访问的惟一原语是同步，同步是更重量级和粗粒度的。公开 CAS 可以开发高度可伸缩的并发 Java 类。这些更改主要由 JDK 库类使用，而不是由开发人员使用。
+
+低级实用程序类 – 锁定和原子类。使用 CAS 作为并发原语，ReentrantLock 类提供与 synchronized 原语相同的锁定和内存语义，然而这样可以更好地控制锁定（如计时的锁定等待、锁定轮询和可中断的锁定等待）和提供更好的可伸缩性（竞争时的高性能）。大多数开发人员将不再直接使用ReentrantLock 类，而是使用在 ReentrantLock 类上构建的高级类。
+
+高级实用程序类。这些类实现并发构建块
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/05/09/tech/Java-concurrent包学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/" itemprop="url">
                   杂七杂八的Linux Shell脚本学习
                 </a>
@@ -300,6 +836,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/09/tech/杂七杂八的Linux-Shell脚本学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -432,6 +975,13 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/09/tech/自己实现一个vector类/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/09/tech/自己实现一个vector类/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -551,6 +1101,13 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/09/tech/Leetcode-No-35-Sort-Colors/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/09/tech/Leetcode-No-35-Sort-Colors/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -672,6 +1229,13 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/09/tech/内网通过代理服务器并使用Shadowsocks联网/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/09/tech/内网通过代理服务器并使用Shadowsocks联网/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -791,6 +1355,13 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/09/tech/算法练习，字符串交错组成-面试常考算法题（九）/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -920,6 +1491,13 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/09/life/唯有悲剧才能够成就伟大/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/09/life/唯有悲剧才能够成就伟大/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -982,130 +1560,11 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/05/09/life/什么是前途/" itemprop="url">
-                  什么是前途
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-09T15:48:36+08:00" content="2015-05-09">
-              2015-05-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/life/" itemprop="url" rel="index">
-                    <span itemprop="name">life</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          &emsp;&emsp;其实无论做什么都有前途，看你对前途的看法是什么？是高楼好车抱着美人衣锦还乡？是老婆孩子热炕头？是坐在阳台上品茶看日落？是周末喝着啤酒看球赛？其实所谓前途 只是你对生活的追求。你是想活出自己，还是想活给人看，很多东西说到容易，但是看着身边的人都功成名就了，自己是否有点失落？还是不想输给一起长大的发 小？还是想超越所有同学去证明给曾经喜欢的女生看，没挑我，走眼了吧？可能生活的种种都逼着我们去成功。但是我们一定要沉得住气。何谓沉得住气？孔明不死，司马懿就是不出城迎战，就算是空城，也不要贸然进去活捉孔明，到最后三国尽归手中。
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/05/09/life/什么是前途/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1146,7 +1605,7 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1163,7 +1622,7 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1200,7 +1659,7 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1292,15 +1751,51 @@ tar, gzip, ziptar创建归档文件，gzip创建压缩文件，zip可以同时�
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
 
 
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"glyme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
   
+    
+  
+
+
 
 
 

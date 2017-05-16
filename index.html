@@ -259,6 +259,525 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/16/tech/Unix Network Programming 2/" itemprop="url">
+                  Unix Network Programming 2
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-16T19:55:00+08:00" content="2017-05-16">
+              2017-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/16/tech/Unix Network Programming 2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/16/tech/Unix Network Programming 2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          卷二对Unix各种进程间通信（IPC）方法做了介绍。
+IPC方法主要有（这里只列出POSIX IPC）：
+
+管道&amp;FIFO(有名管道)
+消息队列
+锁与条件变量
+信号量
+共享内存
+
+其中POSIX消息队列实际运用很少，就不在这里讲解了。
+IPC的持续性将IPC的持续性分为3种：
+
+随进程，如管道、非共享内存区互斥锁和条件变量
+随内核，如有名信号量、共享内存
+随文件
+
+管道&amp;FIFO管道适合进程进行少量数据的传递。
+使用pipe函数创建管道，然后使用fork复制进程，子进程/父进程关闭读/写管道，最后使用write/read进行数据读写。
+FIFO是有名管道，可用于无亲缘关系的进程之间进行通信。
+如果write大小小雨PIPE_BUF，则write操作具有原子性。
+锁和条件变量锁用来控制临界区访问，而条件变量用于等待条件。
+条件变量在获取锁后，使用pthread_cond_wait会释放锁并等待条件满足时被唤醒。
+为了防止虚假唤醒，条件变量被唤醒时需要监测条件是否满足123while (!is_condition_satisfied) &#123;    pthread_cond_wait(&amp;cond, &amp;mutex);&#125;
+线程取消带来的死锁问题pthread_cond_wait是线程取消点（cancellation point）。在阻塞在pt
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/16/tech/Unix Network Programming 2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/15/tech/Unix Network Programming 1/" itemprop="url">
+                  Unix Network Programming 1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-15T11:03:00+08:00" content="2017-05-15">
+              2017-05-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/15/tech/Unix Network Programming 1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/15/tech/Unix Network Programming 1/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          卷一主要以TCP echo服务为例，对UNIX网络socket编程做了讲解。
+基本TCP socket编程使用socket, connect, bind, listen, accpet, fork, exec, close等基本函数搭建一个并发服务器。
+然后讨论了多种异常情况，包括：
+
+accept返回前终止
+
+服务器进程终止服务器会向客户TCP发送FIN，客户在socket会读取到EOF
+
+服务器崩溃这时服务器不会发送FIN，客户TCP会不断尝试重传直到超时。可以使用SO_KEEPALIVE和超时机制探测服务器状态
+
+服务器崩溃后重启客户TCP向服务器发送数据时，服务器由于不存在这个TCP连接，会向客户发送RST
+
+
+IO复用讲解了select和poll函数实现IO复用
+套接字选项重点选项：
+
+SO_REUSEADDR所有服务器套接字都应该使用这个选项，用以部分解决TIME_WAIT的问题
+
+SO_LINGER用以决定close后缓冲区中残留数据的处理方式。l-onoff设为非0，且l_linger为0时，close将导致缓冲区中的数据被扔到并向对端发送RST，也可以避免TIME_WAIT
+
+SO_KEEPALIVETCP保活机制
+
+
+基本UDP socket编程UDP编程与TCP编程类似，但是由于UDP没有状态，不需要建立连接。
+对UDP而言，可以直接使用recvfrom和se
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/15/tech/Unix Network Programming 1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/15/sci/基于粒子滤波器的目标跟踪器/" itemprop="url">
+                  基于粒子滤波器的目标跟踪器
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-15T15:30:09+08:00" content="2016-12-15">
+              2016-12-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/15/sci/基于粒子滤波器的目标跟踪器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/15/sci/基于粒子滤波器的目标跟踪器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          毕设准备做一些目标跟踪检测相关的事情，要点是使用概率计算方法实现，因此打算先研究研究常见的跟踪检测算法，然后看看哪些算法适合概率计算方法。
+跟踪方法的分类跟踪方法一般分为两类，分别是：top-down，bottom-up。
+top-down，这种方法根据模型生成目标在当前帧的位置的假设，然后通过当前帧图像去验证这种假设。粒子滤波就属于这类方法。
+bottom-up，这种方法把当前帧进行分割，然后尝试搜索物体的位置。Mean-shift算法就属于这类方法。
+粒子滤波器粒子滤波器是一种SIS(Sequencial Importance Sampling)方法。具体作用就是在Markov Chain上进行推导和预测，plusikid大神的这篇漫谈 HMM：Kalman/Particle Filtering对Particle Filter进行了详细的讲解和推导。
+我这里用通俗的话来讲一讲粒子滤波器是干嘛用的。就拿漫谈 HMM：Forward-Backward Algorithm中的火星车来举例。
+首先第一步，火星车的位置（隐藏状态）为$S_0=(x,y)$，粒子滤波器根据初始状态生成一大堆的particles（每一个权重是状态和权重组成的二元组），$$S\_samples=(s_0^{(0)},s_0^{(1)}…s_0^{(n)}), w=(w_0^{(0)},w_0^{(1)}…w_0
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/15/sci/基于粒子滤波器的目标跟踪器/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/12/tech/XPOSED初探——Android去广告/" itemprop="url">
+                  XPOSED初探——Android去广告
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-12T16:02:16+08:00" content="2016-11-12">
+              2016-11-12
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/12/tech/XPOSED初探——Android去广告/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/12/tech/XPOSED初探——Android去广告/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          最近学习了一下XPOSED框架，入门参照了这系列博文 [Android 开发] Xposed 插件开发。
+总结起来，XPOSED框架首先搭建好环境，包括引用xposedjar包，创立入口点xposed_init文件。
+我所要去除的广告是应用的首屏广告。很多应用不会直接进入主界面，而是先显示一个过渡界面，这个过渡界面一般被称为SplashActivity。这是因为有的应用在第一次启动时，需要加载的资源比较多，如果不使用过渡界面，在加载资源的这段时间手机会黑屏，用户体验较差，使用过渡界面就可以解决这个问题。过渡界面一般用来显示应用Logo和提示加载资源的进度，但是很多应用机wu智chi的滥用这个技术，把过渡界面用来展示广告，而且还要显示好几秒，远远大于实际加载资源所需要的时间。
+使用XPOSED这个神器可以去除这种首屏广告。XPOSED不同于普通的Android应用，它只是一个框架，不提供具体的应用，而开发者则可以使用它提供的API编写模块实现具体的功能。XPOSED的功能十分强大，它可以Hook任意的Java函数，提供类似AOP的功能。
+具体的编写方法这里就略过，只讲思路。要跳过广告，就是跳过广告的Activity直接进入真正内容的Activity，使用XPOSED Hook住广告Activity的onStart方法，在onStart之前进行切入，启动主Activity并finish
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/11/12/tech/XPOSED初探——Android去广告/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/04/life/Android玩机——解决流氓软件的耗电问题/" itemprop="url">
                   Android玩机——解决流氓软件的耗电问题
                 </a>
@@ -300,6 +819,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/04/life/Android玩机——解决流氓软件的耗电问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/04/life/Android玩机——解决流氓软件的耗电问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -435,6 +961,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/07/tech/记录C++的一个调试过程/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/07/tech/记录C++的一个调试过程/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -556,6 +1089,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/sci/基于统计模型纠正Anki_GRE词典的分词错误/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -684,6 +1224,13 @@ google搜索虽然功能很强大，但是由于众所周知的原因，最后�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/24/life/让Chrome打印适应Kindle大小的PDF/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/24/life/让Chrome打印适应Kindle大小的PDF/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -809,6 +1356,13 @@ google搜索虽然功能很强大，但是由于众所周知的原因，最后�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/19/tech/通过斗鱼弹幕监控学习Scala/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -846,127 +1400,6 @@ BiMap程序需要保存建立的长连接的信息，包括Socket和房间ID（r
 
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/19/tech/通过斗鱼弹幕监控学习Scala/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/" itemprop="url">
-                  Spark Local模式可用但Standalone报错的解决方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-09-13T15:47:21+08:00" content="2016-09-13">
-              2016-09-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/technology/" itemprop="url" rel="index">
-                    <span itemprop="name">technology</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          使用 Spark 的 Standalone 模式部署集群遇到了很多坑，记录一下。
-java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但也没人解决，自己鼓捣了半天后，发现问题出在 spark-submit 的 jar 包名称含有空格…文件名去掉空格后就不会报错了
-各种ClassUndefined问题首先检查一下有没有使用 sbt-assembly 把第三方 jar 包打包进去，或者使用 classpath 把jar包include进去。然后注意提交的 jar 包要在所有Worker上都可见，如果使用的posix文件名，要把jar包传到每一台Worker上，路径名称都要相同。
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/13/tech/Spark Local模式可用但Standalone报错的解决方法/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1059,6 +1492,13 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/09/13/tech/关于网络编程中 MTU、TCP、UDP 优化配置的一些总结 - 副本/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/13/tech/关于网络编程中 MTU、TCP、UDP 优化配置的一些总结 - 副本/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1114,398 +1554,11 @@ java.lang.ClassCastException这个 stackoverflow 上面也有相关问题，但�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/14/sci/mcmcgibbs/" itemprop="url">
-                  MCMC&Gibbs Sampling学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-14T23:27:07+08:00" content="2016-05-14">
-              2016-05-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/science/" itemprop="url" rel="index">
-                    <span itemprop="name">science</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          给定一个简单的概率分布$p(x)$（比如均匀分布、正态分布），生成它的样本是比较容易的。但是当目标概率分布很复杂时，要生成它的样本就会变得十分困难。MCMC（蒙特卡洛马尔科夫方法）算法就是一种常用的生成复杂目标概率分布样本的算法。
-MCMC的基础是非周期马氏链的平稳特性：从任意状态出发，最后都会到达平稳状态。当达到平稳状态后，每一次采样得到的样本$x$都服从平稳分布$\pi$。如果平稳分布$\pi$就是目标分布的话，那么我们就找到了一种生成目标概率分布样本的方法，MCMC就是使得$\pi$成为目标分布的方法。
-具体算法推导参考：MCMC和Gibbs Sampling
-MCMC需要已知目标概率分布$p(x)$和一个任意分布$q(x|y)$
-算法如下：
-
-初始化马氏链状态X=x0
-
-对t=0,1,2…循环采样
-
-采样$y\sim q(x|y)$
-
-从均匀分布采样$u\sim U(0,1)$
-
-如果$u&lt;\alpha(x_y,y)=min\{\frac{p(y)q(x_t|y)}{p(x_t)q(y|x_t)},1\}$，接受新样本y，X=y，否则$X=x_t$
-
-
-
-
-选取分布$q(x|y)$时，往往需要满足对称性，$q(x|y)=q(y|x)$，也就是x-&gt;y与y-&gt;x的概率相同，这样$\alpha(x_y,y)=min\{\frac{p(y)}{p(x_t)},1
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/14/sci/mcmcgibbs/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/09/tech/设计模式解析学习/" itemprop="url">
-                  设计模式解析学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-09T15:51:35+08:00" content="2016-05-09">
-              2016-05-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/technology/" itemprop="url" rel="index">
-                    <span itemprop="name">technology</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          面向对象范形面向过程：功能分解将一个大任务分解为一个个小任务，但是主程序需要承受的责任太多（为每个子任务分配资源，确保子任务正确运行，etc）
-功能分解往往导致低内聚，高耦合。    
-面向对象对象具有责任，降低主程序的复杂操作。
-封装使得耦合性降低。 
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/09/tech/设计模式解析学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/09/tech/Java-concurrent包学习/" itemprop="url">
-                  Java concurrent包学习
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-09T15:47:21+08:00" content="2016-05-09">
-              2016-05-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/technology/" itemprop="url" rel="index">
-                    <span itemprop="name">technology</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          JDK5.0对java.util.concurrent包做了大量的改进，吸收了大量的由 Doug Lea 编写的util.concurrent包中的内容。
-这里记录一下我对java.util.concurrent包学习的总结。
-摘要自其他文章
-
-JDK 5.0 中的并发改进可以分为三组:
-
-JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供支持，通常以compare-and-swap （CAS）指令形式。CAS 是一种低级别的、细粒度的技术，它允许多个线程更新一个内存位置，同时能够检测其他线程的冲突并进行恢复。它是许多高性能并发算法的基础。在 JDK 5.0 之前，Java 语言中用于协调线程之间的访问的惟一原语是同步，同步是更重量级和粗粒度的。公开 CAS 可以开发高度可伸缩的并发 Java 类。这些更改主要由 JDK 库类使用，而不是由开发人员使用。
-
-低级实用程序类 – 锁定和原子类。使用 CAS 作为并发原语，ReentrantLock 类提供与 synchronized 原语相同的锁定和内存语义，然而这样可以更好地控制锁定（如计时的锁定等待、锁定轮询和可中断的锁定等待）和提供更好的可伸缩性（竞争时的高性能）。大多数开发人员将不再直接使用ReentrantLock 类，而是使用在 ReentrantLock 类上构建的高级类。
-
-高级实用程序类。这些类实现并发构建块
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/09/tech/Java-concurrent包学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1546,7 +1599,7 @@ JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-count">21</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1563,7 +1616,7 @@ JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1600,7 +1653,7 @@ JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供�
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1692,9 +1745,30 @@ JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供�
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"glyme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
 </script>
 
 <script type="text/x-mathjax-config">
@@ -1711,13 +1785,11 @@ JVM 级别更改。大多数现代处理器对并发对某一硬件级别提供�
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
 
-
-
+  
+    
   
 
 
-
-  
 
 
 

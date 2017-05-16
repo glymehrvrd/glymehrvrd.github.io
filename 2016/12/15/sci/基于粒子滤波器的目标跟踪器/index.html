@@ -1,0 +1,680 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Particle Filter,Tracker,Markov Chain,Sequencial Importance Sampling," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="毕设准备做一些目标跟踪检测相关的事情，要点是使用概率计算方法实现，因此打算先研究研究常见的跟踪检测算法，然后看看哪些算法适合概率计算方法。
+跟踪方法的分类跟踪方法一般分为两类，分别是：top-down，bottom-up。
+top-down，这种方法根据模型生成目标在当前帧的位置的假设，然后通过当前帧图像去验证这种假设。粒子滤波就属于这类方法。
+bottom-up，这种方法把当前帧进行分割，然后尝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于粒子滤波器的目标跟踪器">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/sci/基于粒子滤波器的目标跟踪器/index.html">
+<meta property="og:site_name" content="Glyme's Notes">
+<meta property="og:description" content="毕设准备做一些目标跟踪检测相关的事情，要点是使用概率计算方法实现，因此打算先研究研究常见的跟踪检测算法，然后看看哪些算法适合概率计算方法。
+跟踪方法的分类跟踪方法一般分为两类，分别是：top-down，bottom-up。
+top-down，这种方法根据模型生成目标在当前帧的位置的假设，然后通过当前帧图像去验证这种假设。粒子滤波就属于这类方法。
+bottom-up，这种方法把当前帧进行分割，然后尝">
+<meta property="og:updated_time" content="2016-12-28T07:37:07.422Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于粒子滤波器的目标跟踪器">
+<meta name="twitter:description" content="毕设准备做一些目标跟踪检测相关的事情，要点是使用概率计算方法实现，因此打算先研究研究常见的跟踪检测算法，然后看看哪些算法适合概率计算方法。
+跟踪方法的分类跟踪方法一般分为两类，分别是：top-down，bottom-up。
+top-down，这种方法根据模型生成目标在当前帧的位置的假设，然后通过当前帧图像去验证这种假设。粒子滤波就属于这类方法。
+bottom-up，这种方法把当前帧进行分割，然后尝">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 基于粒子滤波器的目标跟踪器 | Glyme's Notes </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?e4f5a4299623225c63b6d60a254c22f1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Glyme's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">just Google it</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于粒子滤波器的目标跟踪器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-15T15:30:09+08:00" content="2016-12-15">
+              2016-12-15
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/15/sci/基于粒子滤波器的目标跟踪器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/15/sci/基于粒子滤波器的目标跟踪器/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>毕设准备做一些目标跟踪检测相关的事情，要点是使用概率计算方法实现，因此打算先研究研究常见的跟踪检测算法，然后看看哪些算法适合概率计算方法。</p>
+<h2 id="跟踪方法的分类"><a href="#跟踪方法的分类" class="headerlink" title="跟踪方法的分类"></a>跟踪方法的分类</h2><p>跟踪方法一般分为两类，分别是：<em>top-down</em>，<em>bottom-up</em>。</p>
+<p><em>top-down</em>，这种方法根据模型生成目标在当前帧的位置的假设，然后通过当前帧图像去验证这种假设。粒子滤波就属于这类方法。</p>
+<p><em>bottom-up</em>，这种方法把当前帧进行分割，然后尝试搜索物体的位置。<strong>Mean-shift</strong>算法就属于这类方法。</p>
+<h2 id="粒子滤波器"><a href="#粒子滤波器" class="headerlink" title="粒子滤波器"></a>粒子滤波器</h2><p>粒子滤波器是一种SIS(Sequencial Importance Sampling)方法。具体作用就是在Markov Chain上进行推导和预测，plusikid大神的这篇<a href="http://freemind.pluskid.org/machine-learning/hmm-kalman-particle-filtering/" target="_blank" rel="external">漫谈 HMM：Kalman/Particle Filtering</a>对Particle Filter进行了详细的讲解和推导。</p>
+<p>我这里用通俗的话来讲一讲粒子滤波器是干嘛用的。就拿<a href="http://freemind.pluskid.org/machine-learning/hmm-forward-backward-algorithm/" target="_blank" rel="external">漫谈 HMM：Forward-Backward Algorithm</a>中的火星车来举例。</p>
+<p>首先第一步，火星车的位置（隐藏状态）为$S_0=(x,y)$，粒子滤波器根据初始状态生成一大堆的particles（每一个权重是状态和权重组成的二元组），$$S\_samples=(s_0^{(0)},s_0^{(1)}…s_0^{(n)}), w=(w_0^{(0)},w_0^{(1)}…w_0^{(n)})$$怎么生成初始particles呢？在第一步，我们可以认为当前的隐藏状态已知，因此$s_i^{(0)}=S_0$，所有粒子的权重相同，并做归一化操作。</p>
+<p>第二步，这时<strong>模型</strong>告诉我们，火星车向北移动了30m，用数学公式表达就是$$S=S+(0,-30)$$但是由于各种原因（火星上起风了，机器精度，火星车摔了一跤；(），因此模型中还需要加上噪声项$$S=S+(0,-30)+noise$$</p>
+<p>在这一步中，我们把所有的particle都作这样的操作，让它们向北移动30m，$$s_1^{(i)}=s_1^{(i)}+(0,-30)+noise$$由于噪声的影响，每个粒子最终的位置都不太相同。</p>
+<p>第三步，这时<strong>观测</strong>（GPS）告诉我们，火星车的实际位置在xxx。当然这个观测结果也并不等于火星车的实际位置，因为GPS也存在误差。但是信息越多，我们综合得到的结果肯定越准确。在这一步。就使用观测结果更新particles的权重。particle给出的位置与观测结果越相似，该particle的权重也越大，火星车越可能出现在这些大权重的particle给出的位置上。</p>
+<p>第四部，使用particles估算火星车的位置$S=w*S\_samples$，即使用particles作加权平均。</p>
+<p>第五步，重采样，由于某些粒子的权重过小，需要重采样，multiply大权重particle，abandon掉小权重particle。</p>
+<p>然后重复第二步。</p>
+<h2 id="粒子滤波器与目标跟踪"><a href="#粒子滤波器与目标跟踪" class="headerlink" title="粒子滤波器与目标跟踪"></a>粒子滤波器与目标跟踪</h2><p>那么粒子滤波器如何运用在目标跟踪上面呢？从上面粒子滤波器的步骤可以看出，粒子滤波器是在HMM上作推导，而HMM需要：</p>
+<ol>
+<li>隐藏状态$x$与观察值$y$的定义</li>
+<li>转移概率，即当前状态到下一个状态的转移概率函数$p(x_{t+1}|x_t)$</li>
+<li>观测值与隐状态的条件概率，即$p(y_t|x_t)$</li>
+</ol>
+<p>对于目标跟踪而言，隐藏状态自然是目标的位置、大小等参数。而观察值一般取目标的特征，常用的特征有<code>Color Histogram</code>，<code>Histogram of oriented gradient</code>等。</p>
+<p>隐藏状态是目标位置，那么转移概率描述的就是目标当前帧到下一帧的位置变化。一般使用Auto-regression，$$x_{t+1}=A*x+w$$</p>
+<p>而权重更新，一般取当前particle给出的位置上的图像的特征与目标特征模型之间的距离。这个也很好理解，当前particle给出的位置越靠近目标，则特征距离越短，该particle权重越大，反之亦然。</p>
+<p>然后就套用上面介绍的particle filter的步骤，就可以实现目标跟踪了。</p>
+<p>更为具体的实现步骤可以参考论文<code>An adaptive color-based particle filter</code></p>
+<h2 id="Unscented-Particle-Filter"><a href="#Unscented-Particle-Filter" class="headerlink" title="Unscented Particle Filter"></a>Unscented Particle Filter</h2><p>Particle Filter有一个缺陷。在第二步中，我们实际上是从转移概率$p(x_{t+1}|x_t)$中采样得到新的particles，而这样得到的particle没用使用到观察得到的信息，因此可能存在较多权重很小的particle，这些particle上的运算都浪费了。</p>
+<p>那么能不能从$p(x_{t+1}|x<em>t,y</em>{t+1})$中进行采样呢？答案是可以的，unscented particle filter首先使用unscented kalman filter估计$p(x_{t+1}|x<em>t,y</em>{t+1})$，然后从估计的$p(x_{t+1}|x<em>t,y</em>{t+1})$中采样得到新的particles。这些particles的权重分布应该较为均匀，因此整个算法的效果就会好很多。</p>
+<p>至于为什么不直接用unscented kalman filter，那是因为kalman filter不能处理非线性的转移函数，正因为此，才需要particle filter嘛。</p>
+<p>unscented transform是一种估计非线性函数矩的方法，比如$E(f(x))$，$f(x)$是非线性函数。而且unscented transform估计一、二阶矩都是准确的。具体怎么使用unscented transform以及怎么使用unscented transform实现unscented kalman filter还没看懂，还要再努力啦。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Particle-Filter/" rel="tag">#Particle Filter</a>
+          
+            <a href="/tags/Tracker/" rel="tag">#Tracker</a>
+          
+            <a href="/tags/Markov-Chain/" rel="tag">#Markov Chain</a>
+          
+            <a href="/tags/Sequencial-Importance-Sampling/" rel="tag">#Sequencial Importance Sampling</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/12/tech/XPOSED初探——Android去广告/" rel="next" title="XPOSED初探——Android去广告">
+                <i class="fa fa-chevron-left"></i> XPOSED初探——Android去广告
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/15/tech/Unix Network Programming 1/" rel="prev" title="Unix Network Programming 1">
+                Unix Network Programming 1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/15/sci/基于粒子滤波器的目标跟踪器/"
+           data-title="基于粒子滤波器的目标跟踪器" data-url="http://yoursite.com/2016/12/15/sci/基于粒子滤波器的目标跟踪器/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Glyme" />
+          <p class="site-author-name" itemprop="name">Glyme</p>
+          <p class="site-description motion-element" itemprop="description">记录我的学习、生活点滴</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">21</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#跟踪方法的分类"><span class="nav-number">1.</span> <span class="nav-text">跟踪方法的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粒子滤波器"><span class="nav-number">2.</span> <span class="nav-text">粒子滤波器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粒子滤波器与目标跟踪"><span class="nav-number">3.</span> <span class="nav-text">粒子滤波器与目标跟踪</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unscented-Particle-Filter"><span class="nav-number">4.</span> <span class="nav-text">Unscented Particle Filter</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Glyme</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"glyme"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]]}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
